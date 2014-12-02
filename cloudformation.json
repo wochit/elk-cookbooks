@@ -1,7 +1,16 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Parameters": {
-        "VpcId" : {
+        "DefaultOWRoles": {
+            "Description": "Yes = have OpsWorks use existing IAM roles from another OpsWorks stack, or No=create roles in the CloudFormation stack.",
+            "Type": "String",
+            "Default": "Yes",
+            "AllowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+		"VpcId" : {
             "Type" : "String",
             "Description" : "VPC Id"
         },
@@ -28,8 +37,155 @@
             "Type": "String",
             "Default": "https://github.com/eiTanLaVi/elk-cookbooks.git"
         }
+		
+    },
+	"Conditions": {
+        "DefaultOWRolesCondition": {
+            "Fn::Equals": [
+                {
+                    "Ref": "DefaultOWRoles"
+                },
+                "Yes"
+            ]
+        },
+        "NotDefaultOWRolesCondition": {
+            "Fn::Equals": [
+                {
+                    "Ref": "DefaultOWRoles"
+                },
+                "No"
+            ]
+        }
     },
     "Resources": {
+		"roleElasticsearch": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version" : "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [ "ec2.amazonaws.com" ]
+                            },
+                            "Action": [ "sts:AssumeRole" ]
+                        }
+                    ]
+                },
+                "Path": "/",
+                "Policies": [
+                    {
+                        "PolicyName": "elasticsearch-aws-plugin",
+                        "PolicyDocument": {
+                            "Version" : "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": "EC2:Describe*",
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+		"ServiceRole": {
+            "Condition": "NotDefaultOWRolesCondition",
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "opsworks.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Path": "/",
+                "Policies": [
+                    {
+                        "PolicyName": "opsworks-service",
+                        "PolicyDocument": {
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "ec2:*",
+                                        "iam:PassRole",
+                                        "cloudwatch:GetMetricStatistics",
+                                        "elasticloadbalancing:*"
+                                    ],
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+		"OpsWorksEC2Role": {
+            "Condition": "NotDefaultOWRolesCondition",
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "ec2.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Path": "/",
+                "Policies": [
+                    {
+                        "PolicyName": "opsworks-ec2-role",
+                        "PolicyDocument": {
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "ec2:DescribeInstances",
+                                        "ec2:DescribeRegions",
+                                        "ec2:DescribeSecurityGroups",
+                                        "ec2:DescribeTags",
+                                        "cloudwatch:PutMetricData"
+                                    ],
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "InstanceRole": {
+            "Condition": "NotDefaultOWRolesCondition",
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "Path": "/",
+                "Roles": [
+                    {
+                        "Ref": "OpsWorksEC2Role"
+                    }
+                ]
+            }
+        },
         "stack": {
             "Type": "AWS::OpsWorks::Stack",
             "Properties": {
@@ -62,7 +218,53 @@
                 },
                 "DefaultRootDeviceType": "ebs",
                 "DefaultOs": "Amazon Linux 2014.09",
-                "CustomJson": {
+                "ServiceRoleArn": {
+					"Fn::If": [
+                        "DefaultOWRolesCondition",
+                        {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    "arn:aws:iam::",
+                                    {
+                                        "Ref": "AWS::AccountId"
+                                    },
+                                    ":role/aws-opsworks-service-role"
+                                ]
+                            ]
+                        },
+                        {
+                            "Fn::GetAtt": [
+                                "ServiceRole",
+                                "Arn"
+                            ]
+                        }
+                    ]                    
+                },
+                "DefaultInstanceProfileArn": {
+                    "Fn::If": [
+                        "DefaultOWRolesCondition",
+                        {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    "arn:aws:iam::",
+                                    {
+                                        "Ref": "AWS::AccountId"
+                                    },
+                                    ":instance-profile/aws-opsworks-ec2-role"
+                                ]
+                            ]
+                        },
+                        {
+                            "Fn::GetAtt": [
+                                "InstanceRole",
+                                "Arn"
+                            ]
+                        }
+                    ]					
+                },
+				"CustomJson": {
                     "java": {
                         "jdk_version": "7",
                         "oracle": {
@@ -121,33 +323,9 @@
                         },
                         "custom_config": {
                             "cluster.routing.allocation.awareness.attributes": "rack_id",
-			     "index.routing.allocation.disable_allocation": false
+							"index.routing.allocation.disable_allocation": false
                         }
                     }
-                },
-                "ServiceRoleArn": {
-                    "Fn::Join": [
-                        "",
-                        [
-                            "arn:aws:iam::",
-                            {
-                                "Ref": "AWS::AccountId"
-                            },
-                            ":role/aws-opsworks-service-role"
-                        ]
-                    ]
-                },
-                "DefaultInstanceProfileArn": {
-                    "Fn::Join": [
-                        "",
-                        [
-                            "arn:aws:iam::",
-                            {
-                                "Ref": "AWS::AccountId"
-                            },
-                            ":instance-profile/aws-opsworks-ec2-role"
-                        ]
-                    ]
                 }
             }
         },
@@ -287,39 +465,6 @@
                 ],
                 "Scheme": "internal",
                 "CrossZone": true
-            }
-        },
-        "roleElasticsearch": {
-            "Type": "AWS::IAM::Role",
-            "Properties": {
-                "AssumeRolePolicyDocument": {
-                    "Version" : "2012-10-17",
-                    "Statement": [
-                        {
-                            "Effect": "Allow",
-                            "Principal": {
-                                "Service": [ "ec2.amazonaws.com" ]
-                            },
-                            "Action": [ "sts:AssumeRole" ]
-                        }
-                    ]
-                },
-                "Path": "/",
-                "Policies": [
-                    {
-                        "PolicyName": "elasticsearch-aws-plugin",
-                        "PolicyDocument": {
-                            "Version" : "2012-10-17",
-                            "Statement": [
-                                {
-                                    "Effect": "Allow",
-                                    "Action": "EC2:Describe*",
-                                    "Resource": "*"
-                                }
-                            ]
-                        }
-                    }
-                ]
             }
         },
         "profileElasticsearch": {
