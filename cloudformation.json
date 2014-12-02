@@ -12,6 +12,21 @@
         "DefaultSshKeyName" : {
             "Type" : "String",
             "Description" : "The default ssh key name"
+        },
+        "WebUsername": {
+            "Description": "WebUsername",
+            "Type": "String",
+            "Default": "username"
+        },
+        "WebPassword": {
+            "Description": "WebPassword",
+            "Type": "String",
+            "Default": "password"
+        },
+        "CookbookRepo": {
+            "Description": "GitURL",
+            "Type": "String",
+            "Default": "https://github.com/eiTanLaVi/elk-cookbooks.git"
         }
     },
     "Resources": {
@@ -24,7 +39,9 @@
                 "UseCustomCookbooks": "true",
                 "CustomCookbooksSource": {
                     "Type": "git",
-                    "Url": "https://github.com/eiTanLaVi/elk-cookbooks.git"
+                    "Url": {
+                        "Ref": "CookbookRepo"
+                    }
                 },
                 "ChefConfiguration": {
                     "BerkshelfVersion": "3.1.3",
@@ -45,6 +62,69 @@
                 },
                 "DefaultRootDeviceType": "ebs",
                 "DefaultOs": "Amazon Linux 2014.09",
+                "CustomJson": {
+                    "java": {
+                        "jdk_version": "7",
+                        "oracle": {
+                            "accept_oracle_download_terms": "true"
+                        },
+                        "accept_license_agreement": "true",
+                        "install_flavor": "oracle"
+                    },
+                    "elasticsearch": {
+                        "nginx": {
+                            "users": [
+                                {
+                                    "username": {
+                                        "Ref": "WebUsername"
+                                    },
+                                    "password": {
+                                        "Ref": "WebPassword"
+                                    }
+                                }
+                            ],
+                            "allow_cluster_api": "true",
+                            "port": 80
+                        },
+                        "cluster": {
+                            "name": "elk-elasticsearch-test"
+                        },
+                        "gateway": {
+                            "expected_nodes": 3
+                        },
+                        "discovery": {
+                            "type": "ec2",
+                            "zen": {
+                                "minimum_master_nodes": 2,
+                                "ping": {
+                                    "multicast": {
+                                        "enabled": false
+                                    }
+                                }
+                            },
+                            "ec2": {
+                                "tag": {
+                                    "opsworks:stack": {
+                                        "Ref": "AWS::StackName"
+                                    }
+                                }
+                            }
+                        },
+                        "path": {
+                            "data": "/mnt/elasticsearch-data",
+			     "logs": "/var/logs/elasticsearch
+                        },
+                        "cloud": {
+                            "aws": {
+                                "region": "us-east-1d"
+                            }
+                        },
+                        "custom_config": {
+                            "cluster.routing.allocation.awareness.attributes": "rack_id",
+			     "index.routing.allocation.disable_allocation": false
+                        }
+                    }
+                },
                 "ServiceRoleArn": {
                     "Fn::Join": [
                         "",
@@ -270,7 +350,7 @@
                 "AutoAssignPublicIps": "false",
                 "VolumeConfigurations": [
                     {
-                        "MountPoint": "/usr/local/var/data/elasticsearch",
+                        "MountPoint": "/mnt/elasticsearch-data",
                         "NumberOfDisks": 2,
                         "RaidLevel": 1,
                         "Size": 500,
