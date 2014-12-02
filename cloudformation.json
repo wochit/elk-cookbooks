@@ -24,7 +24,7 @@
                 "UseCustomCookbooks": "true",
                 "CustomCookbooksSource": {
                     "Type": "git",
-                    "Url": "https://github.com/hautelook/elk-cookbooks.git"
+                    "Url": "https://github.com/eiTanLaVi/elk-cookbooks.git"
                 },
                 "ChefConfiguration": {
                     "BerkshelfVersion": "3.1.3",
@@ -273,7 +273,10 @@
                         "MountPoint": "/usr/local/var/data/elasticsearch",
                         "NumberOfDisks": 2,
                         "RaidLevel": 1,
-                        "Size": 500
+                        "Size": 500,
+                        "VolumeType": "gp2",
+                        "AvailabilityZone" : { "Fn::GetAtt" : [ "EC2Instance", "AvailabilityZone" ] }
+						
                     }
                 ],
                 "CustomSecurityGroupIds": [
