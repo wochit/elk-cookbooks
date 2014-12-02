@@ -112,7 +112,7 @@
                         },
                         "path": {
                             "data": "/mnt/elasticsearch-data",
-			     "logs": "/var/logs/elasticsearch
+			     "logs": "/var/logs/elasticsearch"
                         },
                         "cloud": {
                             "aws": {
