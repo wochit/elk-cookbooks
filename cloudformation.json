@@ -112,7 +112,7 @@
                         },
                         "path": {
                             "data": "/mnt/elasticsearch-data",
-			     "logs": "/var/logs/elasticsearch"
+							"logs": "/var/logs/elasticsearch"
                         },
                         "cloud": {
                             "aws": {
@@ -354,8 +354,7 @@
                         "NumberOfDisks": 2,
                         "RaidLevel": 1,
                         "Size": 500,
-                        "VolumeType": "gp2",
-                        "AvailabilityZone" : { "Fn::GetAtt" : [ "EC2Instance", "AvailabilityZone" ] }
+                        "VolumeType": "gp2"
 						
                     }
                 ],
