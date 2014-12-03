@@ -10,7 +10,15 @@
                 "No"
             ]
         },
-		"DefaultSshKeyName" : {
+		"VpcId" : {
+            "Type" : "String",
+            "Description" : "VPC Id"
+        },
+		"DefaultSubnetId" : {
+            "Type" : "String",
+            "Description" : "AZ 1 subnet id"
+        },
+        "DefaultSshKeyName" : {
             "Type" : "String",
             "Description" : "The default ssh key name"
         },
@@ -199,6 +207,12 @@
                     "Name": "Chef",
                     "Version": "11.10"
                 },
+                "VpcId": {
+                    "Ref": "VpcId"
+                },
+				"DefaultSubnetId": {
+                    "Ref": "DefaultSubnetId"
+                },
                 "DefaultSshKeyName": {
                     "Ref": "DefaultSshKeyName"
                 },
@@ -318,40 +332,61 @@
         "sgElasticsearchElb": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
+                "VpcId": {
+                    "Ref": "VpcId"
+                },
                 "GroupDescription": "Elasticsearch security group",
                 "SecurityGroupIngress" : [
                     {
-                        "IpProtocol" : "icmp",
+                        "IpProtocol" : "-1",
+                        "FromPort" : "-1",
+                        "ToPort" : "-1",
+                        "CidrIp" : "0.0.0.0/0"
+                    }
+                ],
+                "SecurityGroupEgress" : [
+                    {
+                        "IpProtocol" : "-1",
                         "FromPort" : "-1",
                         "ToPort" : "-1",
                         "CidrIp" : "0.0.0.0/0"
                     }
                 ]
-                
             }
         },
         "sgElasticsearch": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
+                "VpcId": {
+                    "Ref": "VpcId"
+                },
                 "GroupDescription": "Elasticsearch security group",
                 "SecurityGroupIngress" : [
                     {
                         "IpProtocol" : "tcp",
                         "FromPort" : "9200",
-                        "ToPort" : "9400",
+                        "ToPort" : "9300",
                         "CidrIp" : "0.0.0.0/0"
-                    },                    
+                    },
 					{
                         "IpProtocol" : "tcp",
                         "FromPort" : "80",
                         "ToPort" : "80",
                         "CidrIp" : "0.0.0.0/0"
                     },
-					{
-                        "IpProtocol" : "icmp",
+                    {
+                        "IpProtocol" : "-1",
                         "FromPort" : "-1",
                         "ToPort" : "-1",
                         "SourceSecurityGroupId": {"Ref": "sgElasticsearchElb"}
+                    }
+                ],
+                "SecurityGroupEgress" : [
+                    {
+                        "IpProtocol" : "-1",
+                        "FromPort" : "0",
+                        "ToPort" : "65535",
+                        "CidrIp" : "0.0.0.0/0"
                     }
                 ]
             }
@@ -359,18 +394,23 @@
         "sgLogstash": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
+                "VpcId": {
+                    "Ref": "VpcId"
+                },
                 "GroupDescription": "Elasticsearch security group",
                 "SecurityGroupIngress" : [
                     {
-                        "IpProtocol" : "icmp",
+                        "IpProtocol" : "-1",
                         "FromPort" : "-1",
                         "ToPort" : "-1",
                         "CidrIp" : "0.0.0.0/0"
-                    },
-					{
-                        "IpProtocol" : "tcp",
-                        "FromPort" : "22",
-                        "ToPort" : "22",
+                    }
+                ],
+                "SecurityGroupEgress" : [
+                    {
+                        "IpProtocol" : "-1",
+                        "FromPort" : "-1",
+                        "ToPort" : "-1",
                         "CidrIp" : "0.0.0.0/0"
                     }
                 ]
@@ -379,6 +419,9 @@
         "sgKibana": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
+                "VpcId": {
+                    "Ref": "VpcId"
+                },
                 "GroupDescription": "Elasticsearch security group",
                 "SecurityGroupIngress" : [
                     {
@@ -386,17 +429,13 @@
                         "FromPort" : "80",
                         "ToPort" : "80",
                         "CidrIp" : "0.0.0.0/0"
-                    },
-					{
-                        "IpProtocol" : "tcp",
-                        "FromPort" : "22",
-                        "ToPort" : "22",
-                        "CidrIp" : "0.0.0.0/0"
-                    },
-					{
-                        "IpProtocol" : "tcp",
-                        "FromPort" : "443",
-                        "ToPort" : "443",
+                    }
+                ],
+                "SecurityGroupEgress" : [
+                    {
+                        "IpProtocol" : "-1",
+                        "FromPort" : "-1",
+                        "ToPort" : "-1",
                         "CidrIp" : "0.0.0.0/0"
                     }
                 ]
@@ -427,7 +466,10 @@
                 "SecurityGroups": [
                     {"Ref": "sgElasticsearchElb"}
                 ],
-				"Scheme": "internal",
+				"Subnets": [
+                    {"Ref": "DefaultSubnetId"}
+                ],				
+                "Scheme": "internal",
                 "CrossZone": true
             }
         },
@@ -455,22 +497,22 @@
                     ]
                 },
                 "EnableAutoHealing": "true",
-                "AutoAssignElasticIps": "false",
+                "AutoAssignElasticIps": "true",
                 "AutoAssignPublicIps": "false",
                 "VolumeConfigurations": [
                     {
                         "MountPoint": "/mnt/elasticsearch-data",
                         "NumberOfDisks": 2,
                         "RaidLevel": 1,
-                        "Size": 500,
-                        "VolumeType": "gp2"
+                        "Size": 500                        
 						
                     }
                 ],
                 "CustomSecurityGroupIds": [
                     {
                         "Fn::GetAtt": [
-                            "sgElasticsearch","GroupId"
+                            "sgElasticsearch",
+                            "GroupId"
                         ]
                     }
                 ],
