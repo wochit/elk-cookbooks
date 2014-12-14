@@ -10,7 +10,7 @@ DEPENDENCIES
     revision: 0facb1dae7b96b1d6c9740ce0e1e79c099bca64f
   opsworks_elasticsearch
     git: git://github.com/eiTanLaVi/chef-opsworks-elasticsearch.git
-    revision: ebc4588c95e7244cbcbb8d05396908f151054e11
+    revision: c6e1881483ab711059c53e893eb50b8a8294094c
   opsworks_kibana
     git: git://github.com/hautelook/chef-opsworks-kibana.git
     revision: 30f027899430e3b69755b33cf10112a1d891b8ef
