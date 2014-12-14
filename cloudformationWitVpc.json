@@ -313,12 +313,12 @@
                             }
                         },
                         "path": {
-                            "data": "/mnt/elasticsearch-data",
+                            "data": "/mnt/elasticsearch-data-1,/mnt/elasticsearch-data-2",
 							"logs": "/var/logs/elasticsearch"
                         },
                         "cloud": {
                             "aws": {
-                                "region": "us-east-1d"
+                                "region": "us-east-1"
                             }
                         },
                         "custom_config": {
@@ -501,11 +501,17 @@
                 "AutoAssignPublicIps": "false",
                 "VolumeConfigurations": [
                     {
-                        "MountPoint": "/mnt/elasticsearch-data",
-                        "NumberOfDisks": 2,
-                        "RaidLevel": 1,
-                        "Size": 500                        
+                        "MountPoint": "/mnt/elasticsearch-data-1",
+                        "NumberOfDisks": 1,
+                        "RaidLevel": "None",
+                        "Size": 250                        
 						
+                    },
+					{
+                        "MountPoint": "/mnt/elasticsearch-data-2",
+                        "NumberOfDisks": 1,
+                        "RaidLevel": "None",
+                        "Size": 250                        
                     }
                 ],
                 "CustomSecurityGroupIds": [
