@@ -532,15 +532,13 @@
                 "VolumeConfigurations": [
                     {
                         "MountPoint": "/mnt/elasticsearch-data-1",
-                        "NumberOfDisks": 1,
-                        "RaidLevel": "None",
+                        "NumberOfDisks": 1,                        
                         "Size": 250                        
 						
                     },
 					{
                         "MountPoint": "/mnt/elasticsearch-data-2",
-                        "NumberOfDisks": 1,
-                        "RaidLevel": "None",
+                        "NumberOfDisks": 1,                        
                         "Size": 250                        
                     }
                 ],
