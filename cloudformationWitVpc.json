@@ -319,7 +319,7 @@
                             "port": 80
                         },
                         "cluster": {
-                            "name": "elk-elasticsearch-test"
+                            "name": "wochit-elasticsearch"
                         },
                         "gateway": {
                             "expected_nodes": 3
