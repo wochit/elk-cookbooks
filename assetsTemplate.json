@@ -62,8 +62,8 @@
 				},
 				"assetUUID":{
 					"type": "string",
-					"index":    "not_analyzed",
-					"doc_values": true
+					"index":    "not_analyzed"
+					
 					
 				},
 				"fileFormat":{
@@ -128,37 +128,37 @@
 				},
 				"assetUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"assetUrlCdnLink":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"hiResAssetUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"animatedGifUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"posterUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"originalPosterUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"thumbnail160x90Url":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"uploadStatus":{
@@ -168,12 +168,12 @@
 				},
 				"providerAssetUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"providerHiResAssetUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"wochitHashValue":{
@@ -274,8 +274,8 @@
 				},
 				"assetUUID":{
 					"type": "string",
-					"index":    "not_analyzed",
-					"doc_values": true
+					"index":    "not_analyzed"
+					
 				},
 				"fileFormat":{
 					"type": "string",
@@ -339,37 +339,37 @@
 				},
 				"assetUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"assetUrlCdnLink":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"hiResAssetUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"animatedGifUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"posterUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"originalPosterUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"thumbnail160x90Url":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"uploadStatus":{
@@ -379,12 +379,12 @@
 				},
 				"providerAssetUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"providerHiResAssetUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"wochitHashValue":{
@@ -484,8 +484,8 @@
 				},
 				"assetUUID":{
 					"type": "string",
-					"index":    "not_analyzed",
-					"doc_values": true
+					"index":    "not_analyzed"
+					
 				},
 				"fileFormat":{
 					"type": "string",
@@ -549,37 +549,37 @@
 				},
 				"assetUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"assetUrlCdnLink":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"hiResAssetUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"animatedGifUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"posterUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"originalPosterUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"thumbnail160x90Url":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"uploadStatus":{
@@ -589,12 +589,12 @@
 				},
 				"providerAssetUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"providerHiResAssetUrl":{
 					"type": "string",
-					"index":    "not_analyzed",
+					"index":    "no",
 					"doc_values": true
 				},
 				"wochitHashValue":{
