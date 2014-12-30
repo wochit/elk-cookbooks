@@ -1,24 +1,61 @@
 {
-	"template" : "assets_public*",
+	"template" : "test_assets_public*",
 	"order" : 0,
 	"settings" : {
-		"number_of_shards" : 5,
-		"number_of_replicas" : 2
+		"number_of_shards" : 3,
+		"number_of_replicas" : 1,
+		"analysis": {
+            "filter": {
+                "wochit_shingle_filter": {
+                    "type":             "shingle",
+                    "min_shingle_size": 2, 
+                    "max_shingle_size": 2, 
+                    "output_unigrams":  false   
+                }
+            },
+            "analyzer": {
+                "wochit_shingle_analyzer": {
+                    "type":             "custom",
+                    "tokenizer":        "standard",
+                    "filter": [
+                        "lowercase",
+                        "wochit_shingle_filter" 
+                    ]
+                }
+            }
+        }
 	},
 	"aliases" : {
-		"public_assets" : {}
+		"test_public_assets" : {}
 	},
 	"mappings" : {
 		"IMAGE": {
 			"_all" : {"enabled" : false},
 			"properties":{
+				"env":{
+					"type": "string",
+					"index" : "no",
+					"doc_values" : true
+				},
 				"title":{
 					"type": "string",
-					"copy_to" : "text"
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						}
+					}
 				},
 				"caption":{
 					"type": "string",
-					"copy_to" : "text"
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						}
+					}
 				},
 				"keywords":{
 					"type": "string",
@@ -208,17 +245,44 @@
 		"VIDEO": {
 			"_all" : {"enabled" : false},
 			"properties":{
+				"env":{
+					"type": "string",
+					"index" : "no",
+					"doc_values" : true
+				},
 				"title":{
 					"type": "string",
-					"copy_to" : "text"
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						}
+					}
 				},
 				"caption":{
 					"type": "string",
-					"copy_to" : "text"
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						}
+					}
 				},
 				"keywords":{
 					"type": "string",
 					"copy_to" : "text"
+				},
+				"transcript":{
+					"type": "string",
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						}
+					}
 				},
 				"text":{
 					"type": "string"
@@ -419,13 +483,30 @@
 		"VIDEO_SEGMENT": {
 			"_all" : {"enabled" : false},
 			"properties":{
+				"env":{
+					"type": "string",
+					"index" : "no",
+					"doc_values" : true
+				},
 				"title":{
 					"type": "string",
-					"copy_to" : "text"
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						}
+					}
 				},
 				"caption":{
 					"type": "string",
-					"copy_to" : "text"
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						}
+					}
 				},
 				"keywords":{
 					"type": "string",
@@ -433,7 +514,13 @@
 				},
 				"transcript":{
 					"type": "string",
-					"copy_to" : "text"
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						}
+					}
 				},
 				"text":{
 					"type": "string"
