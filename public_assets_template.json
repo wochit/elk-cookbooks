@@ -9,7 +9,7 @@
                 "wochit_shingle_filter": {
                     "type":             "shingle",
                     "min_shingle_size": 2, 
-                    "max_shingle_size": 2, 
+                    "max_shingle_size": 3, 
                     "output_unigrams":  false   
                 }
             },
@@ -32,9 +32,23 @@
 		"IMAGE": {
 			"_all" : {"enabled" : false},
 			"properties":{
+				"ownerUserDbId":{
+					"type": "string",
+					"index" : "not_analyzed",
+					"fielddata":{
+						"loading" : "eager_global_ordinals"
+					}
+				},
+				"programmersDbIds":{
+					"type": "string",
+					"index" : "not_analyzed",
+					"fielddata":{
+						"loading" : "eager_global_ordinals"
+					}
+				},
 				"env":{
 					"type": "string",
-					"index" : "no",
+					"index" : "not_analyzed",
 					"doc_values" : true
 				},
 				"title":{
@@ -243,9 +257,23 @@
 		"VIDEO": {
 			"_all" : {"enabled" : false},
 			"properties":{
+				"ownerUserDbId":{
+					"type": "string",
+					"index" : "not_analyzed",
+					"fielddata":{
+						"loading" : "eager_global_ordinals"
+					}
+				},
+				"programmersDbIds":{
+					"type": "string",
+					"index" : "not_analyzed",
+					"fielddata":{
+						"loading" : "eager_global_ordinals"
+					}
+				},
 				"env":{
 					"type": "string",
-					"index" : "no",
+					"index" : "not_analyzed",
 					"doc_values" : true
 				},
 				"title":{
@@ -296,6 +324,11 @@
 					"doc_values": true
 				},
 				"audioEncoding":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"videoEncoding":{
 					"type": "string",
 					"index":    "not_analyzed",
 					"doc_values": true
@@ -481,9 +514,23 @@
 		"VIDEO_SEGMENT": {
 			"_all" : {"enabled" : false},
 			"properties":{
+				"ownerUserDbId":{
+					"type": "string",
+					"index" : "not_analyzed",
+					"fielddata":{
+						"loading" : "eager_global_ordinals"
+					}
+				},
+				"programmersDbIds":{
+					"type": "string",
+					"index" : "not_analyzed",
+					"fielddata":{
+						"loading" : "eager_global_ordinals"
+					}
+				},
 				"env":{
 					"type": "string",
-					"index" : "no",
+					"index" : "not_analyzed",
 					"doc_values" : true
 				},
 				"title":{
@@ -534,6 +581,11 @@
 					"doc_values": true
 				},
 				"audioEncoding":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"videoEncoding":{
 					"type": "string",
 					"index":    "not_analyzed",
 					"doc_values": true
