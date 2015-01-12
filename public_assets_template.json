@@ -11,7 +11,19 @@
                     "min_shingle_size": 2, 
                     "max_shingle_size": 3, 
                     "output_unigrams":  false   
-                }
+                },
+				"english_stop": {
+				  "type":       "stop",
+				  "stopwords":  "_english_" 
+				},
+				"english_stemmer": {
+				  "type":       "stemmer",
+				  "language":   "english"
+				},
+				"english_possessive_stemmer": {
+				  "type":       "stemmer",
+				  "language":   "possessive_english"
+				}
             },
             "analyzer": {
                 "wochit_shingle_analyzer": {
@@ -21,7 +33,18 @@
                         "lowercase",
                         "wochit_shingle_filter" 
                     ]
-                }
+                },
+				"wochit_english_stemming_analyzer": {
+					"tokenizer":  "standard",
+				    "filter": [
+						"asciifolding",
+						"english_possessive_stemmer",
+						"lowercase",
+						"english_stop",
+						"english_stemmer"
+					]
+					
+				}
             }
         }
 	},
@@ -34,17 +57,11 @@
 			"properties":{
 				"ownerUserDbId":{
 					"type": "string",
-					"index" : "not_analyzed",
-					"fielddata":{
-						"loading" : "eager_global_ordinals"
-					}
+					"index" : "not_analyzed"
 				},
 				"programmersDbIds":{
 					"type": "string",
-					"index" : "not_analyzed",
-					"fielddata":{
-						"loading" : "eager_global_ordinals"
-					}
+					"index" : "not_analyzed"
 				},
 				"env":{
 					"type": "string",
@@ -58,6 +75,10 @@
 						"shingles": {
 							"type":     "string",
 							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
 						}
 					}
 				},
@@ -68,6 +89,10 @@
 						"shingles": {
 							"type":     "string",
 							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
 						}
 					}
 				},
@@ -106,10 +131,7 @@
 				"assetType":{
 					"type": "string",
 					"index":    "not_analyzed",
-					"doc_values": true,
-					"fielddata":{
-						"loading" : "eager_global_ordinals"
-					}
+					"doc_values": true
 				},
 				"assetUUID":{
 					"type": "string",
@@ -259,17 +281,11 @@
 			"properties":{
 				"ownerUserDbId":{
 					"type": "string",
-					"index" : "not_analyzed",
-					"fielddata":{
-						"loading" : "eager_global_ordinals"
-					}
+					"index" : "not_analyzed"
 				},
 				"programmersDbIds":{
 					"type": "string",
-					"index" : "not_analyzed",
-					"fielddata":{
-						"loading" : "eager_global_ordinals"
-					}
+					"index" : "not_analyzed"
 				},
 				"env":{
 					"type": "string",
@@ -283,6 +299,10 @@
 						"shingles": {
 							"type":     "string",
 							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
 						}
 					}
 				},
@@ -293,6 +313,10 @@
 						"shingles": {
 							"type":     "string",
 							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
 						}
 					}
 				},
@@ -307,6 +331,10 @@
 						"shingles": {
 							"type":     "string",
 							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
 						}
 					}
 				},
@@ -362,10 +390,7 @@
 				"assetType":{
 					"type": "string",
 					"index":    "not_analyzed",
-					"doc_values": true,
-					"fielddata":{
-						"loading" : "eager_global_ordinals"
-					}
+					"doc_values": true
 				},
 				"assetUUID":{
 					"type": "string",
@@ -516,17 +541,11 @@
 			"properties":{
 				"ownerUserDbId":{
 					"type": "string",
-					"index" : "not_analyzed",
-					"fielddata":{
-						"loading" : "eager_global_ordinals"
-					}
+					"index" : "not_analyzed"
 				},
 				"programmersDbIds":{
 					"type": "string",
-					"index" : "not_analyzed",
-					"fielddata":{
-						"loading" : "eager_global_ordinals"
-					}
+					"index" : "not_analyzed"
 				},
 				"env":{
 					"type": "string",
@@ -540,6 +559,10 @@
 						"shingles": {
 							"type":     "string",
 							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
 						}
 					}
 				},
@@ -550,6 +573,10 @@
 						"shingles": {
 							"type":     "string",
 							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
 						}
 					}
 				},
@@ -564,6 +591,10 @@
 						"shingles": {
 							"type":     "string",
 							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
 						}
 					}
 				},
@@ -614,10 +645,7 @@
 				"assetType":{
 					"type": "string",
 					"index":    "not_analyzed",
-					"doc_values": true,
-					"fielddata":{
-						"loading" : "eager_global_ordinals"
-					}
+					"doc_values": true
 				},
 				"assetUUID":{
 					"type": "string",
@@ -723,6 +751,7 @@
 					"type": "string",
 					"index":    "not_analyzed",
 					"doc_values": true
+					
 				},
 				"providerAssetUrl":{
 					"type": "string",
