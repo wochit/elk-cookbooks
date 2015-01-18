@@ -1,0 +1,798 @@
+{
+	"template" : "dev_assets_private*",
+	"order" : 0,
+	"settings" : {
+		"number_of_shards" : 3,
+		"number_of_replicas" : 1,
+		"analysis": {
+            "filter": {
+                "wochit_shingle_filter": {
+                    "type":             "shingle",
+                    "min_shingle_size": 2, 
+                    "max_shingle_size": 3, 
+                    "output_unigrams":  false   
+                },
+				"english_stop": {
+				  "type":       "stop",
+				  "stopwords":  "_english_" 
+				},
+				"english_stemmer": {
+				  "type":       "stemmer",
+				  "language":   "english"
+				},
+				"english_possessive_stemmer": {
+				  "type":       "stemmer",
+				  "language":   "possessive_english"
+				}
+            },
+            "analyzer": {
+                "wochit_shingle_analyzer": {
+                    "type":             "custom",
+                    "tokenizer":        "standard",
+                    "filter": [
+                        "lowercase",
+                        "wochit_shingle_filter" 
+                    ]
+                },
+				"wochit_english_stemming_analyzer": {
+					"tokenizer":  "standard",
+				    "filter": [
+						"asciifolding",
+						"english_possessive_stemmer",
+						"lowercase",
+						"english_stop",
+						"english_stemmer"
+					]
+					
+				}
+            }
+        }
+	},
+	"aliases" : {
+		"dev_private_assets" : {}
+	},
+	"mappings" : {
+		"IMAGE": {
+			"_all" : {"enabled" : false},
+			"properties":{
+				"ownerUserDbId":{
+					"type": "string",
+					"index" : "not_analyzed"
+				},
+				"programmersDbIds":{
+					"type": "string",
+					"index" : "not_analyzed"
+				},
+				"env":{
+					"type": "string",
+					"index" : "not_analyzed",
+					"doc_values" : true
+				},
+				"title":{
+					"type": "string",
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
+						}
+					}
+				},
+				"caption":{
+					"type": "string",
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
+						}
+					}
+				},
+				"keywords":{
+					"type": "string",
+					"copy_to" : "text"
+				},
+				"text":{
+					"type": "string"
+				},
+				"contentFamily":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"assetFileMetadatas":{
+					"properties":{
+						"assetFamily":{
+							"type": "string",
+							"index":    "not_analyzed"
+						},
+						"fileFormat":{
+							"type": "string",
+							"index":    "not_analyzed"
+						},
+						"orientation":{
+							"type": "string",
+							"index":    "not_analyzed"
+						},
+						"outputFileName":{
+							"type": "string",
+							"index": "not_analyzed"
+						}
+					}
+				},
+				"assetType":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"assetUUID":{
+					"type": "string",
+					"index":    "not_analyzed"
+				},
+				"fileFormat":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"providerId":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"language":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"attributionMode":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"privacy":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"licenseType":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"orientation":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"aspectRatio":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true					
+				},
+				"color":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"copyrights":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"providerAssetId":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"takenByArtist":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"assetUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"assetUrlCdnLink":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"hiResAssetUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"animatedGifUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"posterUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"originalPosterUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"thumbnail160x90Url":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"uploadStatus":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"providerAssetUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"providerHiResAssetUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"wochitHashValue":{
+					"type": "string",
+					"index":    "not_analyzed"
+				},
+				"sizeCode":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"requestId":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"location":{
+					"properties":{
+						"locationType":{
+							"type": "string",
+							"index":    "not_analyzed"
+							
+						},
+						"zoomLevel":{
+							"type": "string",
+							"index": "not_analyzed"
+						}
+					}
+				}
+			}
+		},
+		"VIDEO": {
+			"_all" : {"enabled" : false},
+			"properties":{
+				"ownerUserDbId":{
+					"type": "string",
+					"index" : "not_analyzed"
+				},
+				"programmersDbIds":{
+					"type": "string",
+					"index" : "not_analyzed"
+				},
+				"env":{
+					"type": "string",
+					"index" : "not_analyzed",
+					"doc_values" : true
+				},
+				"title":{
+					"type": "string",
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
+						}
+					}
+				},
+				"caption":{
+					"type": "string",
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
+						}
+					}
+				},
+				"keywords":{
+					"type": "string",
+					"copy_to" : "text"
+				},
+				"transcript":{
+					"type": "string",
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
+						}
+					}
+				},
+				"text":{
+					"type": "string"
+				},
+				"contentFamily":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"videoPartType":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"audioEncoding":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"videoEncoding":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"assetFileMetadatas":{
+					"properties":{
+					
+						"assetFamily":{
+							"type": "string",
+							"index":    "not_analyzed"
+							
+						},
+						"fileFormat":{
+							"type": "string",
+							"index":    "not_analyzed"
+							
+						},
+						"orientation":{
+							"type": "string",
+							"index":    "not_analyzed"
+							
+						},
+						"outputFileName":{
+							"type": "string",
+							"index": "not_analyzed"
+						}
+					
+					
+					}
+				},
+				"assetType":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"assetUUID":{
+					"type": "string",
+					"index":    "not_analyzed"
+					
+				},
+				"fileFormat":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"providerId":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"language":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"attributionMode":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"privacy":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"licenseType":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"orientation":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"aspectRatio":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true					
+				},
+				"color":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"copyrights":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"providerAssetId":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"takenByArtist":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"assetUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"assetUrlCdnLink":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"hiResAssetUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"animatedGifUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"posterUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"originalPosterUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"thumbnail160x90Url":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"uploadStatus":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"providerAssetUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"providerHiResAssetUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"wochitHashValue":{
+					"type": "string",
+					"index":    "not_analyzed"
+				},
+				"sizeCode":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"requestId":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"location":{
+					"properties":{
+						"locationType":{
+							"type": "string",
+							"index":    "not_analyzed"
+							
+						},
+						"zoomLevel":{
+							"type": "string",
+							"index": "not_analyzed"
+						}
+					}
+				}
+			}
+		},
+		"VIDEO_SEGMENT": {
+			"_all" : {"enabled" : false},
+			"properties":{
+				"ownerUserDbId":{
+					"type": "string",
+					"index" : "not_analyzed"
+				},
+				"programmersDbIds":{
+					"type": "string",
+					"index" : "not_analyzed"
+				},
+				"env":{
+					"type": "string",
+					"index" : "not_analyzed",
+					"doc_values" : true
+				},
+				"title":{
+					"type": "string",
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
+						}
+					}
+				},
+				"caption":{
+					"type": "string",
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
+						}
+					}
+				},
+				"keywords":{
+					"type": "string",
+					"copy_to" : "text"
+				},
+				"transcript":{
+					"type": "string",
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
+						}
+					}
+				},
+				"text":{
+					"type": "string"
+				},
+				"contentFamily":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"videoPartType":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"audioEncoding":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"videoEncoding":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"assetFileMetadatas":{
+					"properties":{
+					
+						"assetFamily":{
+							"type": "string",
+							"index":    "not_analyzed"
+						},
+						"fileFormat":{
+							"type": "string",
+							"index":    "not_analyzed"
+						},
+						"orientation":{
+							"type": "string",
+							"index":    "not_analyzed"
+						},
+						"outputFileName":{
+							"type": "string",
+							"index": "not_analyzed"
+						}
+					}
+				},
+				"assetType":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"assetUUID":{
+					"type": "string",
+					"index":    "not_analyzed"
+					
+				},
+				"fileFormat":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"providerId":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"language":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"attributionMode":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"privacy":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"licenseType":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"orientation":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"aspectRatio":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true					
+				},
+				"color":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"copyrights":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"providerAssetId":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"takenByArtist":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"assetUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"assetUrlCdnLink":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"hiResAssetUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"animatedGifUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"posterUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"originalPosterUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"thumbnail160x90Url":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"uploadStatus":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+					
+				},
+				"providerAssetUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"providerHiResAssetUrl":{
+					"type": "string",
+					"index":    "no",
+					"doc_values": true
+				},
+				"wochitHashValue":{
+					"type": "string",
+					"index":    "not_analyzed"
+				},
+				"sizeCode":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"requestId":{
+					"type": "string",
+					"index":    "not_analyzed",
+					"doc_values": true
+				},
+				"location":{
+					"properties":{
+						"locationType":{
+							"type": "string",
+							"index":    "not_analyzed"
+							
+						},
+						"zoomLevel":{
+							"type": "string",
+							"index": "not_analyzed"
+						}
+					}
+				}
+			}
+		}
+	
+	}
+
+}
