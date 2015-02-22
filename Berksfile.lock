@@ -1,7 +1,7 @@
 DEPENDENCIES
   elasticsearch
     git: git://github.com/elasticsearch/cookbook-elasticsearch.git
-    revision: bbd39047540a171b597768612e564b7bc567af64
+    revision: c112a02e50f40dfd93bbe9326e2e695e4a06e59a
   kibana
     git: git://github.com/lusis/chef-kibana.git
     revision: 38157056cb9e327503ef1895c986400fafff7b36
