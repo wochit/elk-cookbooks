@@ -810,17 +810,15 @@
 				},
 				"title":{
 					"type": "string",
-					"copy_to" : "text",
-					"index" : "no"
+					"copy_to" : "text"
 				},
 				"caption":{
 					"type": "string",
-					"copy_to" : "text",
-					"index" : "no"
+					"copy_to" : "text"
 				},
 				"keywords":{
 					"type": "string",
-					"index" : "no",
+					"index" : "not_analyzed",
 					"copy_to" : "text"
 				},
 				"transcript":{
@@ -1044,22 +1042,19 @@
 				},
 				"title":{
 					"type": "string",
-					"copy_to" : "text",
-					"index" : "no"
+					"copy_to" : "text"
 				},
 				"caption":{
 					"type": "string",
-					"copy_to" : "text",
-					"index" : "no"
+					"copy_to" : "text"
 				},
 				"keywords":{
 					"type": "string",
-					"index" : "no",
+					"index" : "not_analyzed",
 					"copy_to" : "text"
 				},
 				"transcript":{
 					"type": "string",
-					"index" : "no",
 					"copy_to" : "text"
 				},
 				"text":{
