@@ -1,0 +1,189 @@
+{
+	"template" : "prod_produced_videos*",
+	"order" : 0,
+	"settings" : {
+		"number_of_shards" : 5,
+		"number_of_replicas" : 2,
+		"analysis": {
+            "filter": {
+                "wochit_shingle_filter": {
+                    "type":             "shingle",
+                    "min_shingle_size": 2, 
+                    "max_shingle_size": 3, 
+                    "output_unigrams":  false   
+                },
+				"english_stop": {
+				  "type":       "stop",
+				  "stopwords":  "_english_" 
+				},
+				"english_stemmer": {
+				  "type":       "stemmer",
+				  "language":   "english"
+				},
+				"english_possessive_stemmer": {
+				  "type":       "stemmer",
+				  "language":   "possessive_english"
+				}
+            },
+            "analyzer": {
+                "wochit_shingle_analyzer": {
+                    "type":             "custom",
+                    "tokenizer":        "standard",
+                    "filter": [
+                        "lowercase",
+                        "wochit_shingle_filter" 
+                    ]
+                },
+				"wochit_english_stemming_analyzer": {
+					"tokenizer":  "standard",
+				    "filter": [
+						"asciifolding",
+						"english_possessive_stemmer",
+						"lowercase",
+						"english_stop",
+						"english_stemmer"
+					]
+					
+				}
+            }
+        }
+	},
+	"aliases" : {
+		"prod_videos_produced" : {}
+	},
+	"mappings" : {
+		"VIDEO": {
+			"_all" : {"enabled" : false},
+			"properties":{
+				"id":{
+					"type": "string",
+					"index": "not_analyzed"
+				},
+				"programmerId":{
+					"type": "string",
+					"index" : "not_analyzed"
+				},
+				"storyCreatorId":{
+					"type": "string",
+					"index" : "not_analyzed"
+				},
+				"storySelectorId":{
+					"type": "string",
+					"index" : "not_analyzed"
+				},
+				"assetModeratorId":{
+					"type": "string",
+					"index" : "not_analyzed"
+				},
+				"narratorId":{
+					"type": "string",
+					"index" : "not_analyzed"
+				},
+				"videoModeratorId":{
+					"type": "string",
+					"index" : "not_analyzed"
+				},
+				"organizationId":{
+					"type": "string",
+					"index" : "not_analyzed"
+				},
+				"voiceOver":{
+					"type": "boolean"
+				},
+	            "topicDisplayText" : {
+	                "type" : "multi_field",
+	                "fields" : {
+	                    "topicDisplayText" : {"type" : "string", "copy_to" : "text", "index" : "analyzed"},
+	                    "untouchedTopicDisplayText" : {"type" : "string", "index" : "not_analyzed"}
+	                }
+	            },
+				"title":{
+					"type": "string",
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
+						}
+					}
+				},
+				"narratedText":{
+					"type": "string",
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
+						}
+					}
+				},
+				"description":{
+					"type": "string",
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
+						}
+					}
+				},
+				"keywords":{
+					"type" : "multi_field",
+	                "fields" : {
+	                    "keywords" : {"type" : "string", "copy_to" : "text", "index" : "analyzed"},
+	                    "untouchedKeywords" : {"type" : "string", "index" : "not_analyzed"}
+	                }
+				},
+				"videoDuration":{
+					"type": "double"
+				},
+				"language":{
+					"type": "string",
+					"index" : "not_analyzed"
+				},
+				"storyUrl":{
+					"type": "string",
+					"copy_to" : "text",
+					"fields": {
+						"shingles": {
+							"type":     "string",
+							"analyzer": "wochit_shingle_analyzer"
+						},
+						"stems": {
+							"type": "string",
+							"analyzer": "wochit_english_stemming_analyzer"
+						}
+					}
+				},
+				"soundbyte":{
+					"type": "boolean"
+				},
+				"licensedMedia":{
+					"type": "boolean"
+				},
+				"infoGraphics":{
+					"type": "boolean"
+				},
+				"bgMusic":{
+					"type": "boolean"
+				},
+				"aspectRatio":{
+					"type": "string",
+					"index" : "not_analyzed"
+				}
+			}
+		}
+	}
+}
