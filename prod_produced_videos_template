@@ -1,5 +1,5 @@
 {
-	"template" : "prod_produced_videos*",
+	"template" : "produced_videos*",
 	"order" : 0,
 	"settings" : {
 		"number_of_shards" : 5,
@@ -49,7 +49,7 @@
         }
 	},
 	"aliases" : {
-		"prod_videos_produced" : {}
+		"videos_produced" : {}
 	},
 	"mappings" : {
 		"VIDEO": {
