@@ -96,10 +96,8 @@
 						}
 					}
 				},
-				"keywords":{
-					"type": "string",
-					"copy_to" : "text"
-				},
+				"keywords": { "type": "string","fields": { "raw": { "type": "string","index": "not_analyzed"}},"copy_to": [ "text"]},
+				"providerAssetVersion": { "type": "string","index": "not_analyzed"},
 				"text":{
 					"type": "string"
 				},
@@ -320,10 +318,8 @@
 						}
 					}
 				},
-				"keywords":{
-					"type": "string",
-					"copy_to" : "text"
-				},
+				"keywords": { "type": "string","fields": { "raw": { "type": "string","index": "not_analyzed"}},"copy_to": [ "text"]},
+				"providerAssetVersion": { "type": "string","index": "not_analyzed"},
 				"transcript":{
 					"type": "string",
 					"copy_to" : "text",
