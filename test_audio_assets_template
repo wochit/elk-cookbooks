@@ -1,271 +1,183 @@
 {
-    "test_audio_assets_template": {
-        "order": 0,
-        "template": "test_audio_assets*",
-        "settings": {
-            "index.analysis.filter.english_stop.type": "stop",
-            "index.analysis.filter.english_stop.stopwords": "_english_",
-            "index.number_of_replicas": "2",
-            "index.analysis.filter.wochit_shingle_filter.type": "shingle",
-            "index.analysis.filter.english_stemmer.language": "english",
-            "index.analysis.filter.english_possessive_stemmer.type": "stemmer",
-            "index.analysis.analyzer.wochit_english_stemming_analyzer.tokenizer": "standard",
-            "index.analysis.filter.wochit_shingle_filter.min_shingle_size": "2",
-            "index.analysis.filter.english_stemmer.type": "stemmer",
-            "index.analysis.analyzer.wochit_shingle_analyzer.filter.1": "wochit_shingle_filter",
-            "index.analysis.analyzer.wochit_shingle_analyzer.filter.0": "lowercase",
-            "index.analysis.analyzer.wochit_english_stemming_analyzer.filter.3": "english_stop",
-            "index.analysis.analyzer.wochit_english_stemming_analyzer.filter.4": "english_stemmer",
-            "index.analysis.analyzer.wochit_shingle_analyzer.tokenizer": "standard",
-            "index.analysis.analyzer.wochit_shingle_analyzer.type": "custom",
-            "index.analysis.filter.english_possessive_stemmer.language": "possessive_english",
-            "index.analysis.analyzer.wochit_english_stemming_analyzer.filter.0": "asciifolding",
-            "index.number_of_shards": "1",
-            "index.analysis.analyzer.wochit_english_stemming_analyzer.filter.1": "english_possessive_stemmer",
-            "index.analysis.analyzer.wochit_english_stemming_analyzer.filter.2": "lowercase",
-            "index.analysis.filter.wochit_shingle_filter.max_shingle_size": "3",
-            "index.analysis.filter.wochit_shingle_filter.output_unigrams": "false"
-        },
-        "mappings": {
-            "AUDIO": {
-                "properties": {
-                    "location": {
-                        "properties": {
-                            "locationType": {
-                                "index": "not_analyzed",
-                                "type": "string"
-                            },
-                            "zoomLevel": {
-                                "index": "not_analyzed",
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "providerAssetUrl": {
-                        "index": "no",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "aspectRatio": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "originalPosterUrl": {
-                        "index": "no",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "sizeCode": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "thumbnail160x90Url": {
-                        "index": "no",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "sentimentType": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "providerHiResAssetUrl": {
-                        "index": "no",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "title": {
-                        "type": "string",
-                        "copy_to": "text",
-                        "fields": {
-                            "shingles": {
-                                "analyzer": "wochit_shingle_analyzer",
-                                "type": "string"
-                            },
-                            "stems": {
-                                "analyzer": "wochit_english_stemming_analyzer",
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "hiResAssetUrl": {
-                        "index": "no",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "assetType": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "takenByArtist": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "contentFamily": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "licenseType": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "assetUrl": {
-                        "index": "no",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "orientation": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "text": {
-                        "type": "string"
-                    },
-                    "keywords": {
-                        "type": "string",
-                        "copy_to": "text"
-                    },
-                    "requestId": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "assetSubType": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "programmersDbIds": {
-                        "index": "not_analyzed",
-                        "type": "string"
-                    },
-                    "copyrights": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "uploadStatus": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "attributionMode": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "privacy": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "wochitHashValue": {
-                        "index": "not_analyzed",
-                        "type": "string"
-                    },
-                    "assetUUID": {
-                        "index": "not_analyzed",
-                        "type": "string"
-                    },
-                    "caption": {
-                        "type": "string",
-                        "copy_to": "text",
-                        "fields": {
-                            "shingles": {
-                                "analyzer": "wochit_shingle_analyzer",
-                                "type": "string"
-                            },
-                            "stems": {
-                                "analyzer": "wochit_english_stemming_analyzer",
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "env": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "posterUrl": {
-                        "index": "no",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "ownerUserDbId": {
-                        "index": "not_analyzed",
-                        "type": "string"
-                    },
-                    "assetUrlCdnLink": {
-                        "index": "no",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "animatedGifUrl": {
-                        "index": "no",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "color": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "providerId": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "language": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "providerAssetId": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    },
-                    "assetFileMetadatas": {
-                        "properties": {
-                            "outputFileName": {
-                                "index": "not_analyzed",
-                                "type": "string"
-                            },
-                            "orientation": {
-                                "index": "not_analyzed",
-                                "type": "string"
-                            },
-                            "assetFamily": {
-                                "index": "not_analyzed",
-                                "type": "string"
-                            },
-                            "fileFormat": {
-                                "index": "not_analyzed",
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "fileFormat": {
-                        "index": "not_analyzed",
-                        "doc_values": true,
-                        "type": "string"
-                    }
+  "template" : "test_audio_assets_*",
+  "order" : 0,
+  "settings" : {
+    "number_of_shards" : 5,
+    "number_of_replicas" : 2,
+    "analysis": {
+            "filter": {
+                "wochit_shingle_filter": {
+                    "type":             "shingle",
+                    "min_shingle_size": 2, 
+                    "max_shingle_size": 3, 
+                    "output_unigrams":  false   
                 },
-                "_all": {
-                    "enabled": false
-                }
-            }
+        "english_stop": {
+          "type":       "stop",
+          "stopwords":  "_english_" 
         },
-        "aliases": {
-            "test_audio_assets": {
+        "english_stemmer": {
+          "type":       "stemmer",
+          "language":   "english"
+        },
+        "english_possessive_stemmer": {
+          "type":       "stemmer",
+          "language":   "possessive_english"
+        }
+            },
+            "analyzer": {
+                "wochit_shingle_analyzer": {
+                    "type":             "custom",
+                    "tokenizer":        "standard",
+                    "filter": [
+                        "lowercase",
+                        "wochit_shingle_filter" 
+                    ]
+                },
+        "wochit_english_stemming_analyzer": {
+          "tokenizer":  "standard",
+            "filter": [
+            "asciifolding",
+            "english_possessive_stemmer",
+            "lowercase",
+            "english_stop",
+            "english_stemmer"
+          ]
+          
+        }
             }
         }
+  },
+  "aliases" : {
+    "test_assets_audio" : {}
+  },
+  "mappings" : {
+    "AUDIO": {
+      "_all" : {"enabled" : false},
+      "properties":{
+        "id":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "assetUUID": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "assetSubType": {
+          "type": "string",
+          "index": "not_analyzed",
+          "doc_values": true
+        },
+        "providerId": {
+          "index": "not_analyzed",
+          "doc_values": true,
+          "type": "string"
+        },
+        "caption": {
+          "type": "string",
+          "fields": {
+              "shingles": {
+                  "type": "string",
+                  "analyzer": "wochit_shingle_analyzer"
+              },
+              "stems": {
+                  "type": "string",
+                  "analyzer": "wochit_english_stemming_analyzer"
+              }
+          },
+          "copy_to": [
+              "text"
+          ]
+        },
+        "creationDate": {
+          "type": "date",
+          "format": "dateOptionalTime"
+        },
+        "publicationDate": {
+          "type": "date",
+          "format": "dateOptionalTime"
+        },
+        "fileFormat": {
+          "type": "string",
+          "index": "not_analyzed",
+          "doc_values": true
+        },
+        "fileSize": {
+          "type": "long"
+        },
+        "keywords":{
+          "type" : "multi_field",
+          "fields" : {
+              "keywords" : {"type" : "string", "copy_to" : "text", "index" : "analyzed"},
+              "untouchedKeywords" : {"type" : "string", "index" : "not_analyzed"}
+          }
+        },
+        "takenByArtist": {
+          "type": "string"
+        },
+        "collection": {
+          "type": "string"
+        },
+        "privacy": {
+          "type": "string",
+          "index": "not_analyzed",
+          "doc_values": true
+        },
+        "ownerUserDbId": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "organizationsDbIds": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "favoriteUsersIds": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "hiResAssetUrl": {
+          "type": "string",
+          "index": "no",
+          "doc_values": true
+        },
+        "uploadStatus": {
+          "type": "string",
+          "index": "not_analyzed",
+          "doc_values": true
+        },
+        "sentimentType": {
+          "type": "string",
+          "index": "not_analyzed",
+          "doc_values": true
+        },
+        "assetFileMetadatas": {
+          "properties": {
+            "assetFamily": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "dateCreated": {
+              "type": "date",
+              "format": "dateOptionalTime"
+            },
+            "fileFormat": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "orientation": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "outputFileName": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "size": {
+              "type": "long"
+            }
+          }
+        }
+      }
     }
+  }
 }
