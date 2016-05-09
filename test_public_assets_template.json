@@ -96,10 +96,8 @@
 						}
 					}
 				},
-				"keywords":{
-					"type": "string",
-					"copy_to" : "text"
-				},
+				"keywords": { "type": "string","fields": { "raw": { "type": "string","index": "not_analyzed"}},"copy_to": [ "text"]},
+				"people": { "type": "string","fields": { "raw": { "type": "string","index": "not_analyzed"}},"copy_to": [ "text"]},
 				"text":{
 					"type": "string"
 				},
@@ -324,10 +322,8 @@
 						}
 					}
 				},
-				"keywords":{
-					"type": "string",
-					"copy_to" : "text"
-				},
+				"keywords": { "type": "string","fields": { "raw": { "type": "string","index": "not_analyzed"}},"copy_to": [ "text"]},
+				"people": { "type": "string","fields": { "raw": { "type": "string","index": "not_analyzed"}},"copy_to": [ "text"]},
 				"transcript":{
 					"type": "string",
 					"copy_to" : "text",

@@ -97,6 +97,7 @@
 					}
 				},
 				"keywords": { "type": "string","fields": { "raw": { "type": "string","index": "not_analyzed"}},"copy_to": [ "text"]},
+				"people": { "type": "string","fields": { "raw": { "type": "string","index": "not_analyzed"}},"copy_to": [ "text"]},
 				"providerAssetVersion": { "type": "string","index": "not_analyzed"},
 				"text":{
 					"type": "string"
