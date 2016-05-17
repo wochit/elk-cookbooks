@@ -167,6 +167,10 @@
 						}
 					}
 				},
+	                    	"mediaProviderIds": {
+                        		"type": "string",
+                        		"index": "not_analyzed"
+                    		},
 				"soundbyte":{
 					"type": "boolean"
 				},
