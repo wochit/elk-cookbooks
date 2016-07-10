@@ -1,5 +1,5 @@
 {
-  "template" : "test_audio_assets_*",
+  "template" : "test_audio_assets*",
   "order" : 0,
   "settings" : {
     "number_of_shards" : 5,
