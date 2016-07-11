@@ -73,7 +73,7 @@
           "doc_values": true,
           "type": "string"
         },
-        "caption": {
+        "title": {
           "type": "string",
           "fields": {
               "shingles": {
